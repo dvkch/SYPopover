@@ -135,9 +135,6 @@ UIViewControllerTransitioningDelegate>
 
 - (UIViewController *)popViewControllerAnimated:(BOOL)animated
 {
-    if(self.backgroundsColor)
-        [viewController.view setBackgroundColor:self.backgroundsColor];
-    
     if(animated)
     {
         CATransition *transition = [CATransition animation];
