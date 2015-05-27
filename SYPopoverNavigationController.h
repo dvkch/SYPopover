@@ -15,6 +15,7 @@ typedef enum : NSUInteger {
 } SYPopoverType;
 
 @class SYPopoverNavigationController;
+@class SYPopoverViewController;
 
 @protocol SYPopoverNavigationControllerDelegate <NSObject>
 -(BOOL)popoverNavigationControllerShouldDismiss:(SYPopoverNavigationController *)popoverNavigationController;
