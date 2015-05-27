@@ -18,15 +18,16 @@ typedef enum : NSUInteger {
 @class SYPopoverViewController;
 
 @protocol SYPopoverNavigationControllerDelegate <NSObject>
--(BOOL)popoverNavigationControllerShouldDismiss:(SYPopoverNavigationController *)popoverNavigationController;
--(void)popoverNavigationControllerWillDismiss:(SYPopoverNavigationController *)popoverNavigationController animated:(BOOL)animated;
--(void)popoverNavigationControllerWillPresent:(SYPopoverNavigationController *)popoverNavigationController animated:(BOOL)animated;
+- (BOOL)popoverNavigationControllerShouldDismiss:(SYPopoverNavigationController *)popoverNavigationController;
+- (void)popoverNavigationControllerWillDismiss:(SYPopoverNavigationController *)popoverNavigationController animated:(BOOL)animated;
+- (void)popoverNavigationControllerWillPresent:(SYPopoverNavigationController *)popoverNavigationController animated:(BOOL)animated;
 @end
 
 @interface SYPopoverNavigationController : UINavigationController
 @property (nonatomic, weak) id<SYPopoverNavigationControllerDelegate> popoverDelegate;
 @property (nonatomic, assign) UIColor *backgroundsColor;
--(void)presentAsPopoverFromViewController:(SYPopoverViewController *)viewController animated:(BOOL)animated;
--(void)close;
+- (instancetype)initWithRootViewController:(SYPopoverViewController *)rootViewController;
+- (void)presentAsPopoverFromViewController:(UIViewController *)viewController animated:(BOOL)animated;
+- (void)close;
 @end
 

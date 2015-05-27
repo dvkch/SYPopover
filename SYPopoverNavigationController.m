@@ -53,14 +53,18 @@ UIViewControllerTransitioningDelegate>
     [self.view setBackgroundColor:backgroundsColor];
 }
 
+- (instancetype)initWithRootViewController:(SYPopoverViewController *)rootViewController
+{
+    self = [super initWithRootViewController:rootViewController];
+    return self;
+}
+
+
 #pragma mark - Presentation
 
-- (void)presentAsPopoverFromViewController:(SYPopoverViewController *)viewController
+- (void)presentAsPopoverFromViewController:(UIViewController *)viewController
                                   animated:(BOOL)animated
 {
-    if(self.backgroundsColor)
-        [viewController.view setBackgroundColor:self.backgroundsColor];
-    
     if([UIDevice iOSis8Plus]) {
         [self setModalPresentationStyle:UIModalPresentationOverCurrentContext];
         [self setModalTransitionStyle:UIModalTransitionStyleCrossDissolve];
@@ -97,6 +101,9 @@ UIViewControllerTransitioningDelegate>
 
 - (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated
 {
+    if(self.backgroundsColor)
+        [viewController.view setBackgroundColor:self.backgroundsColor];
+    
     if(animated)
     {
         CATransition *transition = [CATransition animation];
@@ -128,6 +135,9 @@ UIViewControllerTransitioningDelegate>
 
 - (UIViewController *)popViewControllerAnimated:(BOOL)animated
 {
+    if(self.backgroundsColor)
+        [viewController.view setBackgroundColor:self.backgroundsColor];
+    
     if(animated)
     {
         CATransition *transition = [CATransition animation];
