@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
   s.ios.deployment_target = '5.0'
   s.name     = 'SYPopover'
-  s.version  = '1.0'
+  s.version  = '1.0.2'
   s.license  = 'Custom'
   s.summary  = 'Popover created with simple navigation controller and view controller subclasses'
   s.homepage = 'https://github.com/dvkch/SYPopover'
@@ -10,5 +10,5 @@ Pod::Spec.new do |s|
   s.source_files = '*.{h,m}'
   s.requires_arc = true
   s.xcconfig = { 'CLANG_MODULES_AUTOLINK' => 'YES' }
-  s.dependency 'SYKit', '>= 0.0.1'
+  s.dependency 'SYKit', '>= 0.0.12'
 end
