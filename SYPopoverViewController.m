@@ -1,6 +1,6 @@
 //
 //  SYPopoverViewController.m
-//  TicTacDoh
+//  SYPopover
 //
 //  Created by Stanislas Chevallier on 26/07/14.
 //  Copyright (c) 2014 Syan. All rights reserved.
@@ -33,7 +33,7 @@
                                            UIViewAutoresizingFlexibleTopMargin |
                                            UIViewAutoresizingFlexibleLeftMargin |
                                            UIViewAutoresizingFlexibleRightMargin)
-];
+     ];
     [self.view addSubview:self.popoverView];
     
     self.underPopoverView = [[UIView alloc] initWithFrame:self.view.bounds];
@@ -126,7 +126,7 @@
     [nc close];
 }
 
-- (NSUInteger)supportedInterfaceOrientations {
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
     return UIInterfaceOrientationMaskAll;
 }
 
