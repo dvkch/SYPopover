@@ -1,6 +1,6 @@
 //
 //  SYPopoverNavigationController.m
-//  SYPopover
+//  TicTacDoh
 //
 //  Created by Stanislas Chevallier on 04/07/14.
 //  Copyright (c) 2014 Syan. All rights reserved.
@@ -141,26 +141,23 @@ UIViewControllerTransitioningDelegate>
         transition.duration = 0.3f;
         transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
         transition.type = kCATransitionPush;
-        transition.subtype = kCATransitionFromLeft;
-        
-        if (![UIDevice sy_iOSis8Plus]) {
-            switch (self.interfaceOrientation) {
-                case UIInterfaceOrientationUnknown:
-                case UIInterfaceOrientationPortrait:
-                    transition.subtype = kCATransitionFromLeft;
-                    break;
-                case UIInterfaceOrientationPortraitUpsideDown:
-                    transition.subtype = kCATransitionFromRight;
-                    break;
-                case UIInterfaceOrientationLandscapeLeft:
-                    transition.subtype = kCATransitionFromTop;
-                    break;
-                case UIInterfaceOrientationLandscapeRight:
-                    transition.subtype = kCATransitionFromBottom;
-                    break;
-            }
+        switch (self.interfaceOrientation) {
+            case UIInterfaceOrientationUnknown:
+            case UIInterfaceOrientationPortrait:
+                transition.subtype = kCATransitionFromLeft;
+                break;
+            case UIInterfaceOrientationPortraitUpsideDown:
+                transition.subtype = kCATransitionFromRight;
+                break;
+            case UIInterfaceOrientationLandscapeLeft:
+                transition.subtype = kCATransitionFromTop;
+                break;
+            case UIInterfaceOrientationLandscapeRight:
+                transition.subtype = kCATransitionFromBottom;
+                break;
         }
-        
+        if([UIDevice sy_iOSis8Plus])
+            transition.subtype = kCATransitionFromLeft;
         [self.view.layer addAnimation:transition forKey:kCATransition];
     }
     
