@@ -1,15 +1,13 @@
 Pod::Spec.new do |s|
   s.ios.deployment_target = '8.0'
-  s.name     = 'SYPopover'
-  s.version  = '1.0.6'
+  s.name     = 'SYPopoverController'
+  s.version  = '2.0.1'
   s.license  = 'Custom'
-  s.summary  = 'Popover created with simple navigation controller and view controller subclasses'
-  s.homepage = 'https://github.com/dvkch/SYPopover'
+  s.summary  = 'UIPresentationController subclass, shows with the desired size, centered on screen'
+  s.homepage = 'https://github.com/dvkch/SYPopoverController'
   s.author   = { 'Stan Chevallier' => 'contact@stanislaschevallier.fr' }
   s.source   = { :git => 'https://github.com/dvkch/SYPopoverController.git', :tag => s.version.to_s }
   s.source_files = '*.{h,m}'
   s.requires_arc = true
   s.xcconfig = { 'CLANG_MODULES_AUTOLINK' => 'YES' }
-  s.dependency 'SYKit', '>= 0.0.12'
-  s.deprecated_in_favor_of = 'SYPopoverController'
 end
