@@ -10,9 +10,6 @@
 #import "SYPopoverViewController.h"
 #import "SYPopoverAnimator.h"
 
-#import "UIDevice+SYKit.h"
-#import "UIScreen+SYKit.h"
-
 @interface SYPopoverNavigationController ()
 <SYPopoverViewControllerDelegate,
 UINavigationControllerDelegate,
@@ -65,29 +62,9 @@ UIViewControllerTransitioningDelegate>
 - (void)presentAsPopoverFromViewController:(UIViewController *)viewController
                                   animated:(BOOL)animated
 {
-    if([UIDevice sy_iOSis8Plus]) {
-        [self setModalPresentationStyle:UIModalPresentationOverCurrentContext];
-        [self setModalTransitionStyle:UIModalTransitionStyleCrossDissolve];
-        [self setTransitioningDelegate:self];
-    }
-    else if([UIDevice sy_iOSis7Plus]) {
-        // needed for rotation events to come
-        [self setModalPresentationStyle:UIModalPresentationCustom];
-        
-        // needed for transparent background
-        viewController.navigationController.modalPresentationStyle = UIModalPresentationCurrentContext;
-        
-        // needed for the view behind to receive rotation events -> dunno anymore, but
-        // it's still very fucked up if in landscape
-        //if(UIInterfaceOrientationIsLandscape(self.interfaceOrientation))
-        //    animated = NO;
-        
-        [self setTransitioningDelegate:self];
-    }
-    else {
-        self.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-        viewController.navigationController.modalPresentationStyle = UIModalPresentationFullScreen;
-    }
+    [self setModalPresentationStyle:UIModalPresentationOverCurrentContext];
+    [self setModalTransitionStyle:UIModalTransitionStyleCrossDissolve];
+    [self setTransitioningDelegate:self];
     
     [viewController.navigationController presentViewController:self animated:animated completion:nil];
 }
@@ -110,23 +87,7 @@ UIViewControllerTransitioningDelegate>
         transition.duration = 0.3f;
         transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
         transition.type = kCATransitionPush;
-        switch (self.interfaceOrientation) {
-            case UIInterfaceOrientationUnknown:
-            case UIInterfaceOrientationPortrait:
-                transition.subtype = kCATransitionFromRight;
-                break;
-            case UIInterfaceOrientationPortraitUpsideDown:
-                transition.subtype = kCATransitionFromLeft;
-                break;
-            case UIInterfaceOrientationLandscapeLeft:
-                transition.subtype = kCATransitionFromBottom;
-                break;
-            case UIInterfaceOrientationLandscapeRight:
-                transition.subtype = kCATransitionFromTop;
-                break;
-        }
-        if([UIDevice sy_iOSis8Plus])
-            transition.subtype = kCATransitionFromRight;
+        transition.subtype = kCATransitionFromRight;
         [self.view.layer addAnimation:transition forKey:kCATransition];
     }
     
@@ -142,25 +103,6 @@ UIViewControllerTransitioningDelegate>
         transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
         transition.type = kCATransitionPush;
         transition.subtype = kCATransitionFromLeft;
-        
-        if (![UIDevice sy_iOSis8Plus]) {
-            switch (self.interfaceOrientation) {
-                case UIInterfaceOrientationUnknown:
-                case UIInterfaceOrientationPortrait:
-                    transition.subtype = kCATransitionFromLeft;
-                    break;
-                case UIInterfaceOrientationPortraitUpsideDown:
-                    transition.subtype = kCATransitionFromRight;
-                    break;
-                case UIInterfaceOrientationLandscapeLeft:
-                    transition.subtype = kCATransitionFromTop;
-                    break;
-                case UIInterfaceOrientationLandscapeRight:
-                    transition.subtype = kCATransitionFromBottom;
-                    break;
-            }
-        }
-        
         [self.view.layer addAnimation:transition forKey:kCATransition];
     }
     

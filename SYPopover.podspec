@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
-  s.ios.deployment_target = '5.0'
+  s.ios.deployment_target = '8.0'
   s.name     = 'SYPopover'
-  s.version  = '1.0.4'
+  s.version  = '1.0.5'
   s.license  = 'Custom'
   s.summary  = 'Popover created with simple navigation controller and view controller subclasses'
   s.homepage = 'https://github.com/dvkch/SYPopover'
