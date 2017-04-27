@@ -1,50 +1,56 @@
-# SYPopoverController
-
-`UIPresentationController` subclass to show a `UIViewController` centered on-screen, with the desired `preferredContentSize`. 
-
-PS: sorry, not the best name, but `SYPopupController` was already taken.
-
-#### Sample code
-
-```
-// 1. The controllers your want to present in the popover
-UINavigationController *navController = [[UINavigationController alloc] init];
-UIViewController *viewController = [[UIViewController alloc] init];
-[navController setViewControllers:@[viewController]];
-
-// 2. Prepare the navigationController to use SYPopoverController
-[navController setModalPresentationStyle:UIModalPresentationCustom];
-[navController setTransitioningDelegate:[SYPopoverTransitioningDelegate shared]];
-
-// 3. Present
-[self presentViewController:navController animated:YES completion:nil];
-
-// (Optional) 4. Access the popoverController to use the background you wish
-// Here we use a semi-transparent white color
-SYPopoverController *popoverController = (SYPopoverController *)navController.presentationController;
-[popoverController.backgroundView setBackgroundColor:[UIColor colorWithWhite:1. alpha:0.6]];
-
-// Alternative to 2+3: use the helper method
-[self sy_presentPopover:navController animated:YES completion:nil];
-
-```
-
-#### Customizations
-
-###### Background
-
-By default there is no background. You have two options to change this behaviour:
-
-- Implement `popoverControllerBackgroundColor:` from `SYPopoverContentViewDelegate` in presented view controllers
+SYPopover
+=========
 
 
-- Access the background view using the following code, and change its background color or add a subview
-		 
-		 [(SYPopoverController *)myViewController.presentationController backgroundView]
-		 
-###### Dismiss
+Popover created with simple navigation controller and view controller subclasses.
 
-By default when the user taps the background of the `popoverController` it is dismissed. You can override this behaviour by conforming to `SYPopoverContentViewDelegate` and implementing `popoverControllerShouldDismissOnBackgroundTap:`
+####How does it work?
+
+1. Create subclasses of `SYPopoverViewController`, add your subviews to `popoverView` and position them inside:
+
+		- (void)updateFramesAndAlphas
+		{
+			[super updateFramesAndAlphas];
+			// here the self.popoverView.frame is up to date
+		}
+
+2. You use `SYPopoverNavigationController` to present subclasses of `SYPopoverViewController`
+
+		-(void)presentAsPopoverFromViewController:(SYPopoverViewController *)viewController animated:(BOOL)animated;
+
+
+
+3. You can decide to use a transparent background (iOS 7+) with something like 
+
+		[popoverNavController setBackgroundsColor:[UIColor clearColor]]
+
+4. You know and control when a popover will be closed using the delegate methods
+
+		-(BOOL)popoverNavigationControllerShouldDismiss:(SYPopoverNavigationController *)popoverNavigationController;
+		-(void)popoverNavigationControllerWillDismiss:(SYPopoverNavigationController *)popoverNavigationController animated:(BOOL)animated;
+		-(void)popoverNavigationControllerWillPresent:(SYPopoverNavigationController *)popoverNavigationController animated:(BOOL)animated;
+
+5. You define the size a view controller will have
+		
+		BOOL showSmallMenu = ....
+		
+		[popoverVC setPopoverSizeBlock:^(BOOL iPad, BOOL iPhoneSmallScreen) {
+			
+			// don't need height > width
+			if(showSmallMenu)
+				return CGSizeMake(300, 300);
+		
+			if(iPad) 
+				return CGSizeMake(300, 600);
+				
+			// iPhone and iPods with 3inches screens
+			if(iPhoneSmallScreen)
+				return CGSizeMake(300, 440);
+				
+			// Other devices
+			return CGSizeMake(300, 500);
+		}];
+		
 
 License
 ===
