@@ -260,7 +260,7 @@
     [viewController setModalPresentationStyle:UIModalPresentationCustom];
     [viewController setTransitioningDelegate:[SYPopoverTransitioningDelegate shared]];
     
-    SYPopoverController *controller = viewController.presentationController;
+    SYPopoverController *controller = (SYPopoverController *)viewController.presentationController;
     [controller setBackgroundVisualEffet:backgroundEffect];
     
     [self presentViewController:viewController animated:animated completion:nil];
