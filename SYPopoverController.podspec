@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
   s.ios.deployment_target = '8.0'
   s.name     = 'SYPopoverController'
-  s.version  = '2.2'
+  s.version  = '2.2.1'
   s.license  = 'Custom'
   s.summary  = 'UIPresentationController subclass, shows with the desired size, centered on screen'
   s.homepage = 'https://github.com/dvkch/SYPopoverController'

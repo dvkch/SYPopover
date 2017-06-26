@@ -49,8 +49,8 @@
         
         // We registered for frame updates. This is needed to get the frame right when a modal VC
         // is being dismissed, or else the presentedViewController.view will be full size...
-        // The view needs to be loaded before registering
-        presentedViewController.view;
+        // The view needs to be loaded before registering (we prevent warnings on iOS < 9 with setHidden:NO)
+        [presentedViewController.view setHidden:NO];
         [presentedViewController addObserver:self forKeyPath:@"view.frame"
                                      options:(NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld)
                                      context:NULL];
