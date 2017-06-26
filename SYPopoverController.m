@@ -7,6 +7,7 @@
 //
 
 #import "SYPopoverController.h"
+#import <objc/runtime.h>
 
 @interface SYPopoverController () <UINavigationControllerDelegate>
 @property (nonatomic, strong, readwrite) UIView *backgroundView;
@@ -45,8 +46,39 @@
         [self.backgroundView addGestureRecognizer:tapOutside];
         
         self.visualEffectView = [[UIVisualEffectView alloc] init];
+        
+        // We registered for frame updates. This is needed to get the frame right when a modal VC
+        // is being dismissed, or else the presentedViewController.view will be full size...
+        // The view needs to be loaded before registering
+        presentedViewController.view;
+        [presentedViewController addObserver:self forKeyPath:@"view.frame"
+                                     options:(NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld)
+                                     context:NULL];
     }
     return self;
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context
+{
+    if (object == self.presentedViewController && [keyPath isEqualToString:@"view.frame"])
+    {
+        CGRect oldValue = [change[NSKeyValueChangeOldKey] CGRectValue];
+        CGRect newValue = [change[NSKeyValueChangeNewKey] CGRectValue];
+        if (!CGSizeEqualToSize(oldValue.size, newValue.size))
+        {
+            // we need to update the appearance async, or else the size is correct but not the origin...
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self updateAppearance];
+            });
+        }
+        return;
+    }
+    [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+}
+
+- (void)dealloc
+{
+    [self.presentedViewController removeObserver:self forKeyPath:@"view.frame"];
 }
 
 - (CGRect)frameOfPresentedViewInContainerView
