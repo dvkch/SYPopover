@@ -7,7 +7,6 @@
 //
 
 #import "SYPopoverController.h"
-#import <objc/runtime.h>
 
 @interface SYPopoverController () <UINavigationControllerDelegate>
 @property (nonatomic, strong, readwrite) UIView *backgroundView;
