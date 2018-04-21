@@ -194,8 +194,7 @@
     // on iOS 10+ animating the alpha of a UIVisualEffetView hides it
     // completely, we use the new UIViewPropertyAnimator to animate the
     // effect instead
-    NSOperatingSystemVersion iOS10 = (NSOperatingSystemVersion){10, 0, 0};
-    if ([[NSProcessInfo processInfo] isOperatingSystemAtLeastVersion:iOS10] && self.backgroundVisualEffet)
+    if (@available(iOS 10, *) && self.backgroundVisualEffet)
     {
         [self.backgroundView setAlpha:1.];
         [self.visualEffectView setEffect:nil];
