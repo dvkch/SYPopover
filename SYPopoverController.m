@@ -194,7 +194,7 @@
     // on iOS 10+ animating the alpha of a UIVisualEffetView hides it
     // completely, we use the new UIViewPropertyAnimator to animate the
     // effect instead
-    if (@available(iOS 10, *))
+    if (@available(iOS 10, *) && self.backgroundVisualEffet != nil)
     {
         [self.backgroundView setAlpha:1.];
         [self.visualEffectView setEffect:nil];
@@ -211,11 +211,11 @@
     {
         [self.backgroundView setAlpha:0.];
         [self.visualEffectView setEffect:self.backgroundVisualEffet];
+        
+        [coordinator animateAlongsideTransition:^(id _) {
+            [self.backgroundView setAlpha:1.];
+        } completion:nil];
     }
-    
-    [self.presentedViewController.transitionCoordinator animateAlongsideTransition:^(id _) {
-        [self.backgroundView setAlpha:1.];
-    } completion:nil];
     
     if ([self.popoverDelegate respondsToSelector:@selector(popoverControllerWillPresent:)])
         [self.popoverDelegate popoverControllerWillPresent:self];
@@ -229,7 +229,7 @@
     // on iOS 10+ animating the alpha of a UIVisualEffetView hides it
     // completely, we use the new UIViewPropertyAnimator to animate the
     // effect instead
-    if (@available(iOS 10, *))
+    if (@available(iOS 10, *) && self.backgroundVisualEffet != nil)
     {
         [[UIViewPropertyAnimator runningPropertyAnimatorWithDuration:coordinator.transitionDuration
                                                                delay:0
@@ -243,6 +243,7 @@
     {
         [coordinator animateAlongsideTransition:^(id _) {
             [self.backgroundView setAlpha:0.];
+            [self.visualEffectView setEffect:nil];
         } completion:nil];
     }
     
